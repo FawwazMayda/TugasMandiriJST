@@ -1,0 +1,16 @@
+ td {
+    color: green;
+    border: 2px solid black;
+    text-align: center;
+}
+
+table {
+    width: 450px;
+    height: 450px;
+
+}
+
+#table-res {
+    display: inline-block;
+    float: right;
+}

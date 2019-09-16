@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <link href="./styke.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <button onclick="generateTable()">Gen Table</button>
+        <button onclick="BANG()">ABANG BOLAAA</button>
+        <div id= "matrix">
+                <table id="table-res">
+                        <tbody id="body-res">
+                        </tbody>
+                    </table>
+                <br>
+        </div>
+        <select id="s">
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="V">V</option>
+        </select>
+        <button onclick="saveDS()">Send</button>
+        <button onclick="clean()">clear</button>
+        <button onclick="sendTrain()">sendTrain</button>
+        <button onclick="predict()">Predict</button>
+        <button onclick="sendPredict()">sendPredict</button>
+        <div id="PRED-RES">
+            <h3></h3>
+        </div>
+        <script src="./app.js"></script>
+    </body>
+</html>
