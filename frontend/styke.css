@@ -13,4 +13,12 @@ table {
 #table-res {
     display: inline-block;
     float: right;
+    position: fixed;
+    left:500px;
+    width: 100px;
+    height: 100px;
+}
+
+#compare-res{
+    top:600px;
 }

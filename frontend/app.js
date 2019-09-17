@@ -174,6 +174,7 @@ function predict(){
 }
 
 function sendPredict(){
+    let urlPredict = "https://trusty-obelisk-244606.appspot.com/predict"
     let ress = []
     let res = []
     var dom = document.getElementById("matrix-table")
@@ -182,7 +183,8 @@ function sendPredict(){
         res.push(parseInt(x[i].innerText))
     }
     ress.push(res)
-    fetch("http://localhost:8080/predict",{
+    let pred_res
+    fetch(urlPredict,{
         method:"POST",
         headers: {
             'Accept': 'application/json',
@@ -191,10 +193,25 @@ function sendPredict(){
         body:JSON.stringify({
             "data":ress
         })
-    }).then(resp => resp.json()).then(data => console.log(data))
+    }).then(resp => resp.json()).then(data => {displayRes(data)})
+    
+}
+
+function displayRes(pred_res){
+    console.log(pred_res)
+    mlp = pred_res.mlp
+    pcp = pred_res.perceptron
+    lvq = pred_res.lvq
+    console.log(lvq)
+    console.log(mlp)
+    console.log(pcp)
+    document.getElementById("pcp").innerText= inverse_mapping(pred_res.perceptron)
+    document.getElementById("mlp").innerText = inverse_mapping(pred_res.mlp)
+    document.getElementById("lvq").innerText = inverse_mapping(pred_res.lvq)
 }
 function sendTrain(){
-    fetch("http://localhost:8080/train",{
+    let urlTrain = "https://trusty-obelisk-244606.appspot.com/train"
+    fetch(urlTrain,{
         method:"POST",
         headers: {
             'Accept': 'application/json',

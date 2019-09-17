@@ -13,6 +13,11 @@ L = Layer(81,4,'sigmoid')
 pcp.add_layer(L)
 
 lvq = LVQ(n_class=4,input_shape=81,distance='euclidean')
+
+mlp = Neural(4)
+mlp.add_layer(Layer(81,20,'relu'))
+mlp.add_layer(Layer(20,10,'relu'))
+mlp.add_layer(Layer(10,4,'sigmoid'))
 @app.route('/')
 def root():
     print("GET")
@@ -24,12 +29,10 @@ def train():
     content = request.json
     data = np.array(content['data'])
     label  = np.array(content['label'])
-    print(data.shape)
-    print(label.shape)
     ev_set = (data,label)
-    print(data)
-    print(label)
-    pcp.fit(X=data,y=label,epochs=100,learn_rate=0.001,eval_set=ev_set)
+    pcp.fit(X=data,y=label,epochs=400,learn_rate=0.001,eval_set=ev_set)
+    mlp.fit(X=data,y=label,epochs=400,learn_rate=0.001,eval_set=ev_set)
+    lvq.fit(data,label,epochs=100,lr=0.0001,eval_set=ev_set)
     return jsonify({'hello': 'world'})
 
 @app.route("/predict",methods=['POST'])
@@ -37,11 +40,13 @@ def pred():
     print("SEND PREDICT")
     content = request.json
     data = np.array(content['data'])
-    print(data)
-    print(pcp.predict(data))
-    res = pcp.predict(data)
-    res = [ int(e) for e in res]
-    return jsonify({'res':res})
+    res_pcp = [ int(e) for e in pcp.predict(data)]
+    res_mlp = [ int(e) for e in mlp.predict(data)]
+    res_lvq = [ int(e) for e in lvq.predict(data)]
+    print(res_lvq)
+    print(res_mlp)
+    print(res_pcp)
+    return jsonify({'status':'OK','lvq':res_lvq,'perceptron':res_pcp,'mlp':res_mlp})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=8080,debug=True)
